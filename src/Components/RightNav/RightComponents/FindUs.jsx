@@ -3,20 +3,24 @@ import { IoLogoTwitter } from "react-icons/io";
 import { AiFillInstagram } from "react-icons/ai";
 const FindUs = () => {
   return (
-    <div className="border my-3 w-[257px] flex-col">
-      <button className="btn btn-wide bg-transparent rounded-none flex gap-2">
-        <FaFacebook />
-        <p>Facebook</p>
-      </button>
-      <button className="btn btn-wide bg-transparent rounded-none flex gap-2">
-        <IoLogoTwitter />
-        <p>Twitter</p>
-      </button>
-      <button className="btn btn-wide bg-transparent rounded-none flex gap-2">
-        <AiFillInstagram />
-        <p>Instagram</p>
-      </button>
-    </div>
+    <>
+      {" "}
+      <h3 className="text-xl font-semibold">Find Us On</h3>
+      <div className="border my-3 w-[257px] flex-col">
+        <button className="btn btn-wide bg-transparent rounded-none flex gap-2">
+          <FaFacebook />
+          <p>Facebook</p>
+        </button>
+        <button className="btn btn-wide bg-transparent rounded-none flex gap-2">
+          <IoLogoTwitter />
+          <p>Twitter</p>
+        </button>
+        <button className="btn btn-wide bg-transparent rounded-none flex gap-2">
+          <AiFillInstagram />
+          <p>Instagram</p>
+        </button>
+      </div>
+    </>
   );
 };
 

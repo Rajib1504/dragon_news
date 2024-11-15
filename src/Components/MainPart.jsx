@@ -1,3 +1,4 @@
+import { Outlet } from "react-router-dom";
 import LeftNav from "./LeftNav/LeftNav";
 import RightNav from "./RightNav/RightNav";
 
@@ -8,7 +9,9 @@ const MainPart = () => {
         <aside className="col-span-2">
           <LeftNav></LeftNav>
         </aside>
-        <main className="col-span-7">center Dispaly</main>
+        <main className="col-span-7">
+          <Outlet></Outlet>
+        </main>
         <aside className="col-span-3">
           <RightNav></RightNav>
         </aside>
