@@ -1,26 +1,49 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../Provider/AuthProvider";
 
 const Register = () => {
-  const [form, setForm] = useState({
-    name: "",
-    photoUrl: "",
-    email: "",
-    password: "",
-    termsAccepted: false,
-  });
-
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setForm({
-      ...form,
-      [name]: type === "checkbox" ? checked : value,
-    });
-  };
-
+  const { createUser } = useContext(AuthContext);
+  const [success, setSuccess] = useState(false);
+  const [fail, setFail] = useState("");
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(form); // For now, it just logs the form data
+    const form = new FormData(e.target);
+    // console.log(form);
+    const name = form.get("name");
+    const email = form.get("email");
+    const photo = form.get("photoUrl");
+    const password = form.get("password");
+    const terms = form.get("terms");
+    console.log({ name, email, photo, password, terms });
+
+    // reset the states
+    setFail("");
+    setSuccess(false);
+    if (!terms) {
+      setFail("Accpt the terms first");
+      return;
+    }
+    const regex = /^(?=.*[A-Z])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{6,}$/;
+    if (!regex.test(password)) {
+      setFail(
+        "Password should be at least 6 characters, contain at least one uppercase letter, and one special character."
+      );
+      return;
+    }
+
+    createUser(email, password)
+      .then((result) => {
+        const user = result.user;
+        console.log(result.user);
+        setSuccess(true);
+      })
+      .catch((error) => {
+        const errorMessage = error.message;
+        console.log(errorMessage);
+        setFail(errorMessage);
+        return;
+      });
   };
 
   return (
@@ -41,8 +64,6 @@ const Register = () => {
           <input
             type="text"
             name="name"
-            value={form.name}
-            onChange={handleChange}
             placeholder="Enter your name"
             className="w-full p-2.5 text-gray-900 border border-gray-300 rounded-md focus:outline-none focus:border-gray-500"
           />
@@ -55,8 +76,6 @@ const Register = () => {
           <input
             type="url"
             name="photoUrl"
-            value={form.photoUrl}
-            onChange={handleChange}
             placeholder="Enter your photo URL"
             className="w-full p-2.5 text-gray-900 border border-gray-300 rounded-md focus:outline-none focus:border-gray-500"
           />
@@ -69,8 +88,6 @@ const Register = () => {
           <input
             type="email"
             name="email"
-            value={form.email}
-            onChange={handleChange}
             placeholder="Enter your email address"
             className="w-full p-2.5 text-gray-900 border border-gray-300 rounded-md focus:outline-none focus:border-gray-500"
           />
@@ -83,21 +100,13 @@ const Register = () => {
           <input
             type="password"
             name="password"
-            value={form.password}
-            onChange={handleChange}
             placeholder="Enter your password"
             className="w-full p-2.5 text-gray-900 border border-gray-300 rounded-md focus:outline-none focus:border-gray-500"
           />
 
           {/* Terms and Conditions Checkbox */}
           <div className="flex items-center space-x-2">
-            <input
-              type="checkbox"
-              name="termsAccepted"
-              checked={form.termsAccepted}
-              onChange={handleChange}
-              className="rounded"
-            />
+            <input type="checkbox" name="terms" className="rounded" />
             <label className="text-sm text-gray-700">
               Accept{" "}
               <span className="text-blue-600 cursor-pointer">
@@ -109,10 +118,14 @@ const Register = () => {
           {/* Register Button */}
           <button
             type="submit"
-            className="w-full py-2 text-white bg-gray-800 rounded-md hover:bg-gray-900 focus:outline-none"
+            className="w-full btn py-2 text-white bg-gray-800 rounded-md hover:bg-gray-900 focus:outline-none"
           >
             Register
           </button>
+          {success && (
+            <p className="text-green-400 text-sm">Register successfully</p>
+          )}
+          {fail && <p className="text-red-500">{fail}</p>}
         </form>
         <p className="text-center text-sm text-gray-500">
           Already Have An Account?{" "}
