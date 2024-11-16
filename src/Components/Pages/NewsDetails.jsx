@@ -1,4 +1,4 @@
-import { useLoaderData } from "react-router-dom";
+import { Link, useLoaderData } from "react-router-dom";
 import Header from "../Header";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import RightNav from "../RightNav/RightNav";
@@ -20,16 +20,19 @@ const NewsDetails = () => {
               <figure>
                 <img
                   className="w-11/12 mt-2 rounded-lg mx-auto"
-                  src={news.image_url}
+                  src={news?.image_url}
                   alt=""
                 />
               </figure>
-              <h2 className="font-bold text-3xl text-center">{news.title}</h2>
-              <p className="w-11/12">{news.details}</p>
+              <h2 className="font-bold text-3xl text-center">{news?.title}</h2>
+              <p className="w-11/12">{news?.details}</p>
               <div className="flex self-start ml-10 p-4">
-                <div className="flex gap-2 items-center justify-center bg-[#D72050] text-white p-3 btn rounded-md">
+                <Link
+                  to={`/category/${news.category_id}`}
+                  className="flex gap-2 items-center justify-center bg-[#D72050] text-white p-3 btn rounded-md"
+                >
                   <FaArrowLeftLong /> All news in this category
-                </div>
+                </Link>
               </div>
             </div>
           </div>

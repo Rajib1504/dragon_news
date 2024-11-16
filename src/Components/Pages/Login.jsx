@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { FaUser, FaLock } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
 
 const Login = () => {
@@ -60,6 +60,7 @@ const Login = () => {
             className="w-full pl-10 p-2.5  bg-gray-200  text-gray-900 border border-gray-300 rounded-md focus:outline-none focus:border-gray-500"
           />
           {success && <p className="text-green-400">Login successful</p>}
+          {success && <Navigate to={"/"}></Navigate>}
           {fail && <p className="text-red-500">{fail}</p>}
           {/* Login Button */}
           <button
