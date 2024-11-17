@@ -10,7 +10,6 @@ const Header = () => {
       <img className="w-[250px]" src={logo} alt="" />
       <p className="text-gray-300 ">Journalism Without Fear or Favour</p>
       <p>{moment().format("MMMM Do YYYY")}</p>
-
       <section>
         {" "}
         <ContentMarquee></ContentMarquee>

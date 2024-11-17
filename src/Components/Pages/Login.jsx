@@ -1,10 +1,13 @@
 import React, { useContext, useState } from "react";
 import { FaUser, FaLock } from "react-icons/fa";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
 
 const Login = () => {
   const { setUser, loginUser } = useContext(AuthContext);
+  const locatin = useLocation();
+  const navigate = useNavigate();
+  // console.log(locatin);
   const [fail, setFail] = useState("");
   const [success, setSuccess] = useState(false);
   const handelSubmit = (e) => {
@@ -16,13 +19,15 @@ const Login = () => {
     setFail("");
     setSuccess(false);
 
-    console.log({ email, password });
+    // console.log({ email, password });
     loginUser(email, password)
       .then((result) => {
         const user = result.user;
         setUser(user);
+
         setSuccess(true);
-        console.log(user);
+        // console.log(user);
+        navigate(locatin?.state ? location.state : "/");
       })
       .catch((error) => {
         const errorMessage = error.message;

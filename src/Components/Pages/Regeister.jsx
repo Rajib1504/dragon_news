@@ -1,10 +1,11 @@
 import React, { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
 
 const Register = () => {
-  const { createUser } = useContext(AuthContext);
+  const { createUser, updateUserPofile, setUser } = useContext(AuthContext);
   const [success, setSuccess] = useState(false);
+  const navigate = useNavigate();
   const [fail, setFail] = useState("");
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -15,7 +16,7 @@ const Register = () => {
     const photo = form.get("photoUrl");
     const password = form.get("password");
     const terms = form.get("terms");
-    console.log({ name, email, photo, password, terms });
+    // console.log({ name, email, photo, password, terms });
 
     // reset the states
     setFail("");
@@ -30,20 +31,28 @@ const Register = () => {
         "Password should be at least 6 characters, contain at least one uppercase letter, and one special character."
       );
       return;
+    } else {
+      createUser(email, password)
+        .then((result) => {
+          const user = result.user;
+          setUser(user);
+          updateUserPofile({ displayName: name, photoURL: photo })
+            .then(() => {
+              navigate("/");
+            })
+            .catch((error) => {
+              // console.log(error);
+            });
+          // console.log(result.user);
+          setSuccess(true);
+        })
+        .catch((error) => {
+          const errorMessage = error.message;
+          // console.log(errorMessage);
+          setFail(errorMessage);
+          return;
+        });
     }
-
-    createUser(email, password)
-      .then((result) => {
-        const user = result.user;
-        console.log(result.user);
-        setSuccess(true);
-      })
-      .catch((error) => {
-        const errorMessage = error.message;
-        console.log(errorMessage);
-        setFail(errorMessage);
-        return;
-      });
   };
 
   return (

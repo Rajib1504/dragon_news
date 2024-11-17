@@ -3,7 +3,7 @@ import NewsCart from "./NewsCart";
 
 const CategoryNews = () => {
   const { data: news } = useLoaderData();
-  console.log(news);
+  // console.log(news);
 
   return (
     <div>
